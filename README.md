@@ -6,23 +6,19 @@
 
 #### 2. Nozzle Probe
 
-
 ### How it works?
 
 1. PA Mode:
 
     Automated Pressure Advanced Calibration.
 
-    Without printing calibration lines, it just simulate extrusion pressure behavior during acceleration and deceleration while only the extruder is working.
-
-    This work process is similar to the Bambu Lab A1 printer, instead, we use  strain gauge, not eddy sensor.
+    Without printing calibration lines, it just simulate extrusion pressure behavior during acceleration and deceleration while only the extruder is working. This work process is similar to the Bambu Lab A1 printer, instead, we use  strain gauge, not eddy sensor.
 
 2. Nozzle Probe Mode: 
 
      Use the strain gauge to sense the nozzle pressure while probing .
 
      It works as a normal switch endstop sensor, so we can just power it and connect the Z- pin on the mainboard. 
-
 
 ### klipper 
 
@@ -56,10 +52,12 @@ G1 X240 Y240
 PA_CALIBRATE NOZZLE_TEMP=[first_layer_temperature] MAX_VOLUMETRIC=[filament_max_volumetric_speed] ACC_WALL=[outer_wall_acceleration]  TRAVEL_SPEED=[travel_speed]  ACC_TO_DECEL_FACTOR=[accel_to_decel_factor]
 ```
 
+####  Compatible:   
+It is compatible with most hotends, but need to design a mount with CAD for different hotend.
 
 ### others
 Store: https://www.pandapi3d.com/product-page/bdpressure
 
-video: [test video](https://youtu.be/zLuWcR-ahno)
+video: [test video](https://youtu.be/zLuWcR-ahno) ; [mount with bambu hotend](https://youtu.be/fwx00GEvlms)
 
 Discord:  [3D Printscape](https://discord.com/channels/804253067784355863/1403863863367176312)
