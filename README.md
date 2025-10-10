@@ -6,6 +6,8 @@
 
 #### 2. Nozzle Probe
 
+<img src="https://static.wixstatic.com/media/0d0edf_9f616bfc4d8c49749dbe0302fdd8c60f~mv2.jpg/v1/fill/w_829,h_802,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_9f616bfc4d8c49749dbe0302fdd8c60f~mv2.jpg" width='600'>
+
 #### How it works?
 
 1. PA Mode:
