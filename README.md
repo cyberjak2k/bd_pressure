@@ -6,7 +6,7 @@
 
 #### 2. Nozzle Probe
 
-<img src="https://static.wixstatic.com/media/0d0edf_9f616bfc4d8c49749dbe0302fdd8c60f~mv2.jpg/v1/fill/w_829,h_802,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_9f616bfc4d8c49749dbe0302fdd8c60f~mv2.jpg" width='600'>
+<img src="https://static.wixstatic.com/media/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg/v1/fill/w_1658,h_1604,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg" width='600'>
 
 #### How it works?
 
