@@ -50,10 +50,10 @@ class BD_Pressure_Advance:
                                    desc=self.cmd_SET_BDPRESSURE_help)   
         self.printer.register_event_handler('klippy:ready',
                                                 self._handle_ready)
+        self.printer.register_event_handler("homing:homing_move_begin",
+                                            self.handle_homing_move_begin)                                        
 
-    def _handle_ready(self):
-        
-        #self.toolhead = self.printer.lookup_object('toolhead')
+    def set_probe_mode(self):
         response = ""
         if "usb" == self.port:
             self.usb.write('e;'.encode())
@@ -62,8 +62,17 @@ class BD_Pressure_Advance:
             response += self.read_register('_version', 15).decode('utf-8')
             #self.write_register('endstop_thr',6)
             self.write_register('pa_probe_mode',2)
-         
+
+
+    def _handle_ready(self):
+        self.set_probe_mode()
+        #self.toolhead = self.printer.lookup_object('toolhead')
         
+         
+    def handle_homing_move_begin(self, hmove):
+        self.set_probe_mode()
+       # if self.mcu_probe in hmove.get_mcu_endstops():
+        #    self.mcu_probe.probe_prepare(hmove)        
         
     cmd_SET_BDPRESSURE_help = "cmd for BD_PRESSURE sensor,SET_BDPRESSURE NAME=xxx COMMAND=START/STOP/RESET_PROBE/READ VALUE=X"
     def cmd_SET_BDPRESSURE(self, gcmd):
