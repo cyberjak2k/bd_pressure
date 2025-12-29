@@ -50,7 +50,7 @@ PA_CALIBRATE NOZZLE_TEMP=[first_layer_temperature] MAX_VOLUMETRIC=[filament_max_
 
 
 ### others
-Store: https://www.pandapi3d.com/product-page/bdpressure
+Store: https://www.pandapi3d.com/product-page/bdpressuree
 
 video: [test video](https://youtu.be/zLuWcR-ahno) ; [mount with bambu hotend](https://youtu.be/fwx00GEvlms)
 
