@@ -16,10 +16,7 @@ BDP_REGS = {
      '_measure_data' : 15,
       'pa_probe_mode' : 48, ## 7= CLOCK_OSR_16384  2=CLOCK_OSR_512
      'raw_data_out' : 49,
-     'probe_thr' : 50,
-     'rang' : 51,
-     'reset_probe' : 52,
-     'invert_data' : 53
+     'probe_thr' : 50
 
 }
 
@@ -35,15 +32,12 @@ class BD_Pressure_Advance:
         self.port = config.get("port")
 
         # if config.get("resistance1", None) is None:
-        self.thrhold = config.getint('thrhold', 4, minval=1) 
         if "i2c" in self.port:  
             self.i2c = bus.MCU_I2C_from_config(config, BDP_CHIP_ADDR, BDP_I2C_SPEED)
         elif "usb" in self.port:
             self.usb_port = config.get("serial")
-            self._baud = config.getint('baud', 250000, minval=2400) 
-            #THRHOLD
-           # baudrate = self.usb_port = config.get("") #38400
-            self.usb = serial.Serial(self.usb_port, self._baud,timeout=1)
+            baudrate = 500000
+            self.usb = serial.Serial(self.usb_port, baudrate,timeout=1)
             self.usb.reset_input_buffer()
             self.usb.reset_output_buffer()
         self.PA_data = []    
@@ -63,13 +57,11 @@ class BD_Pressure_Advance:
         response = ""
         if "usb" == self.port:
             self.usb.write('e;'.encode())
-            self.usb.write((str(self.thrhold)+';').encode())
            # response += self.usb.readline().decode('ascii').strip()
         elif "i2c" == self.port: 
             response += self.read_register('_version', 15).decode('utf-8')
             #self.write_register('endstop_thr',6)
             self.write_register('pa_probe_mode',2)
-            self.write_register('probe_thr',self.thrhold)
 
 
     def _handle_ready(self):
@@ -94,8 +86,7 @@ class BD_Pressure_Advance:
         elif 'RESET_PROBE' in cmd:  
             self.cmd_reset_probe(gcmd) 
         elif 'READ' in cmd:  
-            self.cmd_read(gcmd)  
-        
+            self.cmd_read(gcmd)     
             
             
     def _resend_current_val(self, eventtime):
@@ -221,7 +212,7 @@ class BD_Pressure_Advance:
             flag=1
             if num>=20:
                 for s_pa in self.PA_data[num-5:]:
-                    if s_pa[4]<2 or s_pa[5]<5:
+                    if s_pa[4]<10 or s_pa[5]<10:
                         flag=0
                         break
                 if flag==1:         
@@ -328,16 +319,15 @@ class BD_Pressure_Advance:
     def cmd_reset_probe(self, gcmd):
         toolhead = self.printer.lookup_object('toolhead')
         ##enable y motor
-      #  toolhead.register_lookahead_callback(
-       #         lambda print_time: self._set_pin(print_time, self._invert_stepper_y==True))
+        toolhead.register_lookahead_callback(
+                lambda print_time: self._set_pin(print_time, self._invert_stepper_y==True))
             
         response = ""
         if "usb" == self.port:
-            self.usb.write('N;'.encode())
+            self.usb.write('G00;'.encode())
             response += self.usb.readline().decode('ascii').strip()
         elif "i2c" == self.port: 
-            #response += self.read_register('reset_probe',52).decode('utf-8')   
-            self.write_register('reset_probe',1)
+            response += self.read_register('_version', 15).decode('utf-8')   
 
     def get_status(self, eventtime=None):
         if self.last_state:
