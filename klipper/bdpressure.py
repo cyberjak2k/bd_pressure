@@ -73,8 +73,8 @@ class BD_Pressure_Advance:
 
 
     def _handle_ready(self):
-        self.set_probe_mode()
-        #self.toolhead = self.printer.lookup_object('toolhead')
+        #self.set_probe_mode()
+        self.toolhead = self.printer.lookup_object('toolhead')
         
          
     def handle_homing_move_begin(self, hmove):
@@ -247,7 +247,7 @@ class BD_Pressure_Advance:
                     self.pa_data_process(gcmd,response)
                     
         elif "i2c" == self.port:
-            response = self.read_register('_measure_data', 32).strip('\0')
+            response = self.read_register('_measure_data', 32).decode('utf-8').strip('\0')
             self.pa_data_process(gcmd,response)
         #if self.is_debug == True:
         #    self.gcode.respond_info("bdwidth, port:%s, width:%.3f mm (%d),motion:%d" % (self.port,self.lastFilamentWidthReading,
