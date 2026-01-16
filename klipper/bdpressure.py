@@ -40,7 +40,7 @@ class BD_Pressure_Advance:
             self.i2c = bus.MCU_I2C_from_config(config, BDP_CHIP_ADDR, BDP_I2C_SPEED)
         elif "usb" in self.port:
             self.usb_port = config.get("serial")
-            self._baud = config.getint('baud', 250000, minval=2400) 
+            self._baud = config.getint('baud', 38400, minval=2400) 
             #THRHOLD
            # baudrate = self.usb_port = config.get("") #38400
             self.usb = serial.Serial(self.usb_port, self._baud,timeout=1)
@@ -49,7 +49,10 @@ class BD_Pressure_Advance:
         self.PA_data = []    
         self.bd_name = config.get_name().split()[1]     
         self.gcode = self.printer.lookup_object('gcode')
-        self.enable_pin_init(config)
+        self._invert_stepper_x, self.mcu_enable_pin_x = self.enable_pin_init(config,"stepper_x")
+        self._invert_stepper_x1, self.mcu_enable_pin_x1 = self.enable_pin_init(config,"stepper_x1")
+        self._invert_stepper_y, self.mcu_enable_pin_y = self.enable_pin_init(config,"stepper_y")
+        self._invert_stepper_y1, self.mcu_enable_pin_y1 = self.enable_pin_init(config,"stepper_y1")
         self.last_state = 0
         self.gcode.register_mux_command("SET_BDPRESSURE", "NAME", self.bd_name,
                                    self.cmd_SET_BDPRESSURE,
@@ -105,8 +108,8 @@ class BD_Pressure_Advance:
             return self.reactor.NEVER
 
         systime = self.reactor.monotonic()
-        print_time = self.mcu_pin_x.get_mcu().estimated_print_time(systime)
-        print_time = self.mcu_pin_y.get_mcu().estimated_print_time(systime)
+        print_time = self.mcu_enable_pin_x.get_mcu().estimated_print_time(systime)
+       # print_time = self.mcu_enable_pin_y.get_mcu().estimated_print_time(systime)
         time_diff = (self.last_print_time + self.resend_interval) - print_time
         if time_diff > 0.:
             # Reschedule for resend time
@@ -114,26 +117,24 @@ class BD_Pressure_Advance:
         self._set_pin(print_time + PIN_MIN_TIME, self.last_value, True)
         return systime + self.resend_interval
 
+    def enable_pin_init(self, config, stepper_name):
 
-    def enable_pin_init(self, config):
-
-        stconfig = config.getsection('stepper_x')     
-        enable_pin_x = stconfig.get('enable_pin') 
-        stconfig = config.getsection('stepper_y')
-        enable_pin_y = stconfig.get('enable_pin')
-       # self.gcode.respond_info("%s: %s"%(self.bd_name,response))
-        
+        stconfig = config.getsection(stepper_name) 
+        if stconfig is None:
+            return None, None
+        enable_pin_s = stconfig.get('enable_pin', None) 
+        if enable_pin_s is None:
+            return None, None
+        logging.info(" init %s"%(stepper_name))       
         self.printer = config.get_printer()
         ppins = self.printer.lookup_object('pins')
         # Determine pin type
 
-        pin_params = ppins.lookup_pin(enable_pin_x, can_invert=True, can_pullup=True,share_type='stepper_enable')
-        self.mcu_pin_x = pin_params['chip'].setup_pin('digital_out', pin_params)
-        self._invert_stepper_x = pin_params['invert']
-        pin_params = ppins.lookup_pin(enable_pin_y, can_invert=True, can_pullup=True,share_type='stepper_enable')
-        self.mcu_pin_y = pin_params['chip'].setup_pin('digital_out', pin_params)
-        self._invert_stepper_y = pin_params['invert']
-           # self.mcu_pin_x = ppins.setup_pin('digital_out', config.get('pin'))
+        pin_params = ppins.lookup_pin(enable_pin_s, can_invert=True, can_pullup=True,share_type='stepper_enable')
+        mcu_pin_s = pin_params['chip'].setup_pin('digital_out', pin_params)
+        _invert_stepper = pin_params['invert']
+
+   
         self.scale = 1.
         self.last_print_time = 0.
         # Support mcu checking for maximum duration
@@ -143,27 +144,27 @@ class BD_Pressure_Advance:
         max_mcu_duration = config.getfloat('maximum_mcu_duration', 0.,
                                            minval=0.500,
                                            maxval=MAX_SCHEDULE_TIME)
-        self.mcu_pin_x.setup_max_duration(max_mcu_duration)
-        self.mcu_pin_y.setup_max_duration(max_mcu_duration)
+        mcu_pin_s.setup_max_duration(max_mcu_duration)
         if max_mcu_duration:
             config.deprecate('maximum_mcu_duration')
             self.resend_interval = max_mcu_duration - RESEND_HOST_TIME
         # Determine start and shutdown values
-        static_value = (self._invert_stepper_y==True) #config.getfloat('static_value', None,
+        static_value = (_invert_stepper==True) #config.getfloat('static_value', None,
                            #            minval=0., maxval=self.scale)
         self.last_value = self.shutdown_value = static_value / self.scale
-        self.mcu_pin_x.setup_start_value(self.last_value, self.shutdown_value)
-        self.mcu_pin_y.setup_start_value(self.last_value, self.shutdown_value)
-        # Register commands
-
+        mcu_pin_s.setup_start_value(self.last_value, self.shutdown_value)
+        return _invert_stepper,mcu_pin_s
                                        
-
     def _set_pin(self, print_time, value, is_resend=False):
         if value == self.last_value and not is_resend:
             return
         print_time = max(print_time, self.last_print_time + PIN_MIN_TIME)
-        self.mcu_pin_x.set_digital(print_time, value)
-        self.mcu_pin_y.set_digital(print_time, value)
+        self.mcu_enable_pin_x.set_digital(print_time, value)
+        self.mcu_enable_pin_y.set_digital(print_time, value)
+        if self.mcu_enable_pin_x1 is not None:
+            self.mcu_enable_pin_x1.set_digital(print_time, value) 
+        if self.mcu_enable_pin_y1 is not None:
+            self.mcu_enable_pin_y1.set_digital(print_time, value) 
         self.last_value = value
         self.last_print_time = print_time
         if self.resend_interval and self.resend_timer is None:
@@ -174,7 +175,8 @@ class BD_Pressure_Advance:
         toolhead = self.printer.lookup_object('toolhead')
         ##disable y motor
         toolhead.register_lookahead_callback(
-               lambda print_time: self._set_pin(print_time, self._invert_stepper_y==False))  
+               lambda print_time: self._set_pin(print_time, self._invert_stepper_x==False))  
+
         self.PA_data=[] 
         self.last_state = 1
         response = ""
@@ -271,7 +273,7 @@ class BD_Pressure_Advance:
         toolhead = self.printer.lookup_object('toolhead')
         ##enable y motor
         toolhead.register_lookahead_callback(
-                lambda print_time: self._set_pin(print_time, self._invert_stepper_y==True))
+                lambda print_time: self._set_pin(print_time, self._invert_stepper_x==True))
         self.last_state = 0     
         response = ""
         if "usb" == self.port:
