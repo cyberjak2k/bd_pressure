@@ -325,7 +325,7 @@ class BD_Pressure_Advance:
                 return
             min_r= self.PA_data[-1]   
             for s_pa in self.PA_data[min_index:]:
-                if min_r[1]>s_pa[1]:
+                if (min_r[1]+abs(min_r[5]))>(s_pa[1]+abs(s_pa[5])):
                     min_r=s_pa
             min_s=min_r      
            # min_s=self.PA_data[min_index]    
