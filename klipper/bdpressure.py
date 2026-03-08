@@ -69,7 +69,7 @@ class BD_Pressure_Advance:
             self.usb.write((str(self.thrhold)+';').encode())
            # response += self.usb.readline().decode('utf-8').strip()
         elif "i2c" == self.port: 
-            response += self.read_register('_version', 15).decode('utf-8')
+           # response += self.read_register('_version', 15).decode('utf-8')
             #self.write_register('endstop_thr',6)
             self.write_register('pa_probe_mode',2)
             self.write_register('probe_thr',self.thrhold)
