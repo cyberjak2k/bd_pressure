@@ -2,8 +2,8 @@
 As we know, different filaments, printing speeds, temperatures, etc. have different PA values that affect print quality significantly. Until now, very few printers on the market have automated PA calibration; many still require manual calibration, which is time-consuming and not everyone can do.
 
 
-<img src="https://static.wixstatic.com/media/0d0edf_047f91542e7d4e3cb8f6a957dcbd10d3~mv2.jpg/v1/fill/w_2081,h_1215,al_c,q_85/0d0edf_047f91542e7d4e3cb8f6a957dcbd10d3~mv2.jpg" width='400'><img src="https://static.wixstatic.com/media/0d0edf_f6d3465971184537b12e430bce7a0aea~mv2.jpg/v1/fill/w_841,h_758,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_f6d3465971184537b12e430bce7a0aea~mv2.jpg" width='259'>
-<img src="https://static.wixstatic.com/media/0d0edf_55b894af8a6a42f9a3a8f1ec2adf1166~mv2.jpg/v1/fill/w_1297,h_788,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_55b894af8a6a42f9a3a8f1ec2adf1166~mv2.jpg" width='400'>
+
+<img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='800'>
 
 ### Features:
 
