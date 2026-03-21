@@ -9,7 +9,7 @@ Pressure Advance (PA) is one of the most impactful tuning parameters in FDM prin
 The same hardware doubles as a high-precision nozzle probe for bed levelling, acting as a drop-in switch-type endstop on the Z− pin.
 
 ---
-<img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='800'>
+<img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='600'>
 
 ## Features
 
@@ -48,21 +48,28 @@ bd_pressure operates as a standard switch-type endstop sensor:
 ---
 
 
-<img src="https://static.wixstatic.com/media/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg/v1/fill/w_1658,h_1604,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg" width='600'>
-<img src="https://static.wixstatic.com/media/0d0edf_eee5984961de44a7bad4c91010afd43b~mv2.jpg/v1/crop/x_10,y_43,w_1744,h_886/fill/w_846,h_430,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vsV.jpg" width =560>
+<img src="https://static.wixstatic.com/media/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg/v1/fill/w_1658,h_1604,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg" width='600'> <img src="https://static.wixstatic.com/media/0d0edf_eee5984961de44a7bad4c91010afd43b~mv2.jpg/v1/crop/x_10,y_43,w_1744,h_886/fill/w_846,h_430,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vsV.jpg" width =560>
 
 ---
 
-## Installation
-
-https://pandapi3d.cn/en/bdpressure/home
-
 ---
-
-[Pandapi3d](https://www.pandapi3d.com/product-page/bdpressuree)
+ 
+## Installation & Documentation
+ 
+Full installation guide, wiring diagrams, and Klipper configuration reference:
+ 
+**[pandapi3d.cn/en/bdpressure/home](https://pandapi3d.cn/en/bdpressure/home)**
+ 
 ---
-[Discord](https://discord.gg/z6ahddnGVU) 
+ 
+## Community & Support
+ 
+| Channel | Link |
+|---|---|
+| Discord | [discord.gg/z6ahddnGVU](https://discord.gg/z6ahddnGVU) |
+| Facebook group | [facebook.com/groups/380795976169477](https://www.facebook.com/groups/380795976169477) |
+| Shop | [pandapi3d.com](https://www.pandapi3d.com/product-page/bdpressuree) |
+ 
 ---
-[Facebook group](https://www.facebook.com/groups/380795976169477)
----
+ 
 
