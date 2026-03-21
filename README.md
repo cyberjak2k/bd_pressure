@@ -10,6 +10,7 @@ The same hardware doubles as a high-precision nozzle probe for bed levelling, ac
 
 ---
 Video : https://youtu.be/xD0XgPfmwlg
+
 <img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='600'>
 
 ## Features
@@ -70,7 +71,7 @@ Full installation guide, wiring diagrams, and Klipper configuration reference:
 | Discord | [discord.gg/z6ahddnGVU](https://discord.gg/z6ahddnGVU) |
 | Facebook group | [facebook.com/groups/380795976169477](https://www.facebook.com/groups/380795976169477) |
 | Shop | [pandapi3d.com](https://www.pandapi3d.com/product-page/bdpressuree) |
-|  Video| https://youtu.be/xD0XgPfmwlg |
+
 ---
  
 
