@@ -1,34 +1,65 @@
-# Auto PA Calibration 
-As we know, different filaments, printing speeds, temperatures, etc. have different PA values that affect print quality significantly. Until now, very few printers on the market have automated PA calibration; many still require manual calibration, which is time-consuming and not everyone can do.
+#  Auto PA Calibration
 
+## Overview
 
+Pressure Advance (PA) is one of the most impactful tuning parameters in FDM printing, yet calibrating it correctly is time-consuming, requires print-specific expertise, and must be repeated whenever filament, speed, or temperature changes.
 
+**bd_pressure** solves this with a dedicated strain-gauge sensor module that measures extruder pressure directly — without printing a single line. It runs an automated calibration routine by simulating extrusion pressure behaviour during acceleration and deceleration, then reports the optimal PA value to the printer firmware over USB or I2C.
+
+The same hardware doubles as a high-precision nozzle probe for bed levelling, acting as a drop-in switch-type endstop on the Z− pin.
+
+---
 <img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='800'>
 
-## bd_pressure
+## Features
 
-### Features:
+| Feature | Description |
+|---|---|
+| **Automatic PA calibration** | No calibration prints. Extruder-only routine measures pressure response directly. |
+| **Nozzle probe** | Strain-gauge contact detection for Z homing, Z tilt, bed mesh or work with eddy bed scan sensor. |
+| **EMI immunity** | Sensor mounted zero-distance to PCB — minimal analog trace length eliminates noise pickup. |
+| **USB & I2C** | Flexible host connectivity; works with Klipper and compatible setups. |
+| **Broad compatibility** | Mounting footprint compatible with E3D and Voron toolhead ecosystems. |
 
-1. Automated Pressure Advanced Calibration
-2. Nozzle Probe
-3. All in one: No external PCB board, USB/I2C,
-4. Compatible with E3D/Voron printers
+---
+
+## How It Works
+
+### Mode 1 — Pressure Advance Calibration
+
+Rather than printing calibration patterns and analysing them visually, bd_pressure directly measures the mechanical relationship between extruder motor acceleration and filament pressure at the nozzle.
+
+1. The extruder motor runs a controlled acceleration/deceleration sequence.
+2. The strain gauge measures the resulting force in real time.
+3. The on-board MCU fits a pressure-vs-acceleration curve and derives the optimal PA value.
+4. The result is sent to the printer firmware via USB or I2C.
+
+This approach is conceptually similar to the automated calibration used in the Bambu Lab A1, but uses a **strain gauge** rather than an eddy current sensor — providing a direct force measurement that is largely filament-agnostic.
+
+### Mode 2 — Nozzle Probe
+
+bd_pressure operates as a standard switch-type endstop sensor:
+
+1. The printer issues a normal Z homing move.
+2. As the nozzle contacts the bed, the strain gauge detects the resulting force change.
+3. The module asserts a signal on the endstop output — compatible with any mainboard Z− pin.
+4. No additional firmware plugin is required for basic probe operation.
+
+---
 
 
-#### How it works?
-1. PA Mode:
- Without printing calibration lines, it just simulate extrusion pressure behavior during acceleration and deceleration while only the extruder is working. This work process is similar to the Bambu Lab A1 printer, instead, I use  strain gauge, not eddy sensor.
-2. Nozzle Probe Mode:
- Use the strain gauge to sense the nozzle pressure while probing.It works as a normal switch endstop sensor, so we can just power it and connect the Z- pin on the mainboard.
+<img src="https://static.wixstatic.com/media/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg/v1/fill/w_1658,h_1604,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg" width='600'>
+<img src="https://static.wixstatic.com/media/0d0edf_eee5984961de44a7bad4c91010afd43b~mv2.jpg/v1/crop/x_10,y_43,w_1744,h_886/fill/w_846,h_430,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vsV.jpg" width =560>
 
-<img src="https://static.wixstatic.com/media/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg/v1/fill/w_1658,h_1604,al_c,q_85,usm_0.66_1.00_0.01/0d0edf_1ebb592e9ab04beeacb07abdf56b3e41~mv2.jpg" width='800'>
-<img src="https://static.wixstatic.com/media/0d0edf_eee5984961de44a7bad4c91010afd43b~mv2.jpg/v1/crop/x_10,y_43,w_1744,h_886/fill/w_846,h_430,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/vsV.jpg" width =800>
+---
+
+## Installation
+
+https://pandapi3d.cn/en/bdpressure/home
+
+---
 
 
 [Pandapi3d](https://www.pandapi3d.com/product-page/bdpressuree)
-
-[Wiki](https://pandapi3d.cn/en/bdpressure/home)
-
-[Youtube](https://youtu.be/6vDijDzVqsA) 
 
 [Discord](https://discord.gg/z6ahddnGVU) 
