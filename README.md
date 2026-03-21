@@ -13,6 +13,7 @@ Video : https://youtu.be/xD0XgPfmwlg
 
 <img src="https://cdn.hackaday.io/images/1561891773995579614.png" width='600'>
 
+
 ## Features
 
 | Feature | Description |
@@ -61,7 +62,9 @@ bd_pressure operates as a standard switch-type endstop sensor:
 Full installation guide, wiring diagrams, and Klipper configuration reference:
  
 **[pandapi3d.cn/en/bdpressure/home](https://pandapi3d.cn/en/bdpressure/home)**
- 
+
+
+<img src="https://cdn.hackaday.io/images/6554431774086421961.jpg" width=600>
 ---
  
 ## Community & Support
