@@ -1,6 +1,6 @@
 #  Auto PA Calibration
 
-## Overview
+## Overview 
 
 Pressure Advance (PA) is one of the most impactful tuning parameters in FDM printing, yet calibrating it correctly is time-consuming, requires print-specific expertise, and must be repeated whenever filament, speed, or temperature changes.
 
@@ -8,6 +8,8 @@ Pressure Advance (PA) is one of the most impactful tuning parameters in FDM prin
 
 The same hardware doubles as a high-precision nozzle probe for bed levelling, acting as a drop-in switch-type endstop on the Z− pin.
 
+ ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+ 
 ---
 Video : https://youtu.be/xD0XgPfmwlg
 
